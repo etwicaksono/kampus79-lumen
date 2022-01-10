@@ -24,7 +24,7 @@ $router->get('/key', function () {
 });
 
 $router->group(["middleware" => "auth", "prefix" => "api"], function ($router) {
-    $router->get("me", "AuthController@me");
+    $router->get("me", "DataController@me");
 });
 
 $router->group(["prefix" => "api"], function () use ($router) {

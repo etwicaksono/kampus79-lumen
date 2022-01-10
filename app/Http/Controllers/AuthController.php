@@ -9,11 +9,6 @@ use Throwable;
 
 class AuthController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware("auth:api", ["except" => ["login", "register"]]);
-    }
-
     public function register(Request $request)
     {
         // Validate incoming request
@@ -58,10 +53,5 @@ class AuthController extends Controller
             return \response()->json(["message" => "Unauthorized"], \http_response_code());
         }
         return $this->respondWithToken($token);
-    }
-
-    public function me()
-    {
-        return response()->json(auth()->user());
     }
 }
