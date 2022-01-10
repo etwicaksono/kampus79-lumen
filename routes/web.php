@@ -2,6 +2,8 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
+use App\Http\Controllers\AuthController;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -19,4 +21,13 @@ $router->get('/', function () use ($router) {
 
 $router->get('/key', function () {
     if (!app()->environment("prod")) return \Illuminate\Support\Str::random(32);
+});
+
+$router->group(["middleware" => "auth", "prefix" => "api"], function ($router) {
+    $router->get("me", [AuthController::class, "me"]);
+});
+
+$router->group(["prefix" => "api"], function () use ($router) {
+    $router->post("register", [AuthController::class, "register"]);
+    $router->post("login", [AuthController::class, "login"]);
 });

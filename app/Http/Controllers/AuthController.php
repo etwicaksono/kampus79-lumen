@@ -14,7 +14,7 @@ class AuthController extends Controller
         $this->middleware("auth:api", ["except" => ["login", "register"]]);
     }
 
-    public function resgister(Request $request)
+    public function register(Request $request)
     {
         // Validate incoming request
         $this->validate($request, [
