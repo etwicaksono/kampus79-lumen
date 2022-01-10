@@ -13,13 +13,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable, Authorizable, HasFactory;
 
+    protected $table = "user";
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email',
+        'email', 'role'
     ];
 
     /**
@@ -30,4 +32,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClass()
+    {
+        return [];
+    }
 }

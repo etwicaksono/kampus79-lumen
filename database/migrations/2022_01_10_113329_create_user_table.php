@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateUserTable extends Migration
 {
-    protected $table = "user";
-
     /**
      * Run the migrations.
      *
