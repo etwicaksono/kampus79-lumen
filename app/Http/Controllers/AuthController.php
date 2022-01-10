@@ -19,7 +19,7 @@ class AuthController extends Controller
         // Validate incoming request
         $this->validate($request, [
             "email" => "required|string|unique:user",
-            "role" => "required",
+            "role" => "required|in:dosen,mahasiswa",
             "password" => "required|confirmed",
         ]);
 
