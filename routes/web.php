@@ -14,7 +14,7 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return $router->app->version() . " | " . date("d-m-Y H:i:s");
 });
 
 $router->get('/key', function () {
