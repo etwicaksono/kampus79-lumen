@@ -14,9 +14,10 @@ class CreateDosenTable extends Migration
     public function up()
     {
         Schema::create('dosen', function (Blueprint $table) {
-            $table->increments("id")->primary();
+            $table->increments("id");
             $table->string("nama", 64);
             $table->timestamps();
+            $table->engine = "InnoDB";
         });
     }
 

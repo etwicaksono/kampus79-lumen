@@ -14,13 +14,32 @@ class CreateDataNilaiTable extends Migration
     public function up()
     {
         Schema::create('data_nilai', function (Blueprint $table) {
-            $table->increments("id")->primary();
+            $table->increments("id");
             $table->string("nim", 32);
-            $table->integer("id_mata_kuliah");
-            $table->integer("id_dosen");
+            $table->integer("id_mata_kuliah")->unsigned();
+            $table->integer("id_dosen")->unsigned();
             $table->float("nilai");
             $table->string("keterangan", 128);
             $table->timestamps();
+            $table->engine = "InnoDB";
+
+            $table->foreign("nim")
+                ->references("nim")
+                ->on("mahasiswa")
+                ->onDelete("cascade")
+                ->onUpdate("cascade");
+
+            $table->foreign("id_mata_kuliah")
+                ->references("id")
+                ->on("mata_kuliah")
+                ->onDelete("cascade")
+                ->onUpdate("cascade");
+
+            $table->foreign("id_dosen")
+                ->references("id")
+                ->on("dosen")
+                ->onDelete("cascade")
+                ->onUpdate("cascade");
         });
     }
 

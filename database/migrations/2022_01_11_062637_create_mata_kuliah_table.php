@@ -14,10 +14,11 @@ class CreateMataKuliahTable extends Migration
     public function up()
     {
         Schema::create('mata_kuliah', function (Blueprint $table) {
-            $table->increments("id")->primary();
+            $table->increments("id");
             $table->string("nama", 64);
             $table->string("nim", 32);
             $table->timestamps();
+            $table->engine = "InnoDB";
         });
     }
 
