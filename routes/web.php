@@ -28,6 +28,12 @@ $router->group(["middleware" => "auth", "prefix" => "api"], function ($router) {
     $router->get("jurusan-avg", "DataController@getJurusanAvg");
 });
 
+$router->group(["middleware" => ["auth", "isdosen"], "prefix" => "api"], function ($router) {
+    $router->post("data-nilai", "DataNilaiController@store");
+    $router->put("data-nilai", "DataNilaiController@update");
+    $router->delete("data-nilai/{id}", "DataNilaiController@destroy");
+});
+
 $router->group(["prefix" => "api"], function () use ($router) {
     $router->post("register", "AuthController@register");
     $router->post("login", "AuthController@login");

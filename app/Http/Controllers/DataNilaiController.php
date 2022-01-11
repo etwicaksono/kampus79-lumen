@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataNilai;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Throwable;
 
 class DataNilaiController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware("auth:api, isdosen");
+    }
     /**
      * Display a listing of the resource.
      *
@@ -34,7 +41,36 @@ class DataNilaiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            "nim" => "required|string|exists:mahasiswa,nim",
+            "id_mata_kuliah" => "required|numeric|exists:mata_kuliah,id",
+            "id_dosen" => "required|numeric|exists:dosen.id",
+            "nilai" => "required|numeric",
+            "keterangan" => "required|string",
+        ], [
+            'nim.required' => 'NIM harus diisi',
+        ]);
+
+        try {
+            $user = new DataNilai;
+            $user->email = $request->input("email");
+            $user->role = $request->input("role");
+            $user->password = \app("hash")->make($request->input("password"));
+            $user->save();
+
+            return \response()->json([
+                "entity" => "user",
+                "action" => "create",
+                "result" => "success"
+            ], \http_response_code());
+        } catch (Throwable $t) {
+            return \response()->json([
+                "entity" => "user",
+                "action" => "create",
+                "result" => "failed",
+                "message" => $t->getMessage()
+            ], \http_response_code());
+        }
     }
 
     /**
