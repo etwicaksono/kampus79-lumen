@@ -30,8 +30,8 @@ $router->group(["middleware" => "auth", "prefix" => "api"], function ($router) {
 
 $router->group(["middleware" => ["auth", "isdosen"], "prefix" => "api"], function ($router) {
     $router->post("data-nilai", "DataNilaiController@store");
-    $router->put("data-nilai", "DataNilaiController@update");
-    $router->delete("data-nilai/{id}", "DataNilaiController@destroy");
+    $router->put("data-nilai/{id}/update", "DataNilaiController@update");
+    $router->delete("data-nilai/{id}/delete", "DataNilaiController@destroy");
 });
 
 $router->group(["prefix" => "api"], function () use ($router) {

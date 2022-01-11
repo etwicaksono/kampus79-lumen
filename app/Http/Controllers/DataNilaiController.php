@@ -55,11 +55,11 @@ class DataNilaiController extends Controller
 
         try {
             $data_nilai = new DataNilai;
-            $data_nilai->nim = $request->input("nim");
-            $data_nilai->id_mata_kuliah = $request->input("id_mata_kuliah");
-            $data_nilai->id_dosen = $request->input("id_dosen");
-            $data_nilai->nilai = $request->input("nilai");
-            $data_nilai->keterangan = $request->input("keterangan");
+            $data_nilai->nim = $request->nim;
+            $data_nilai->id_mata_kuliah = $request->id_mata_kuliah;
+            $data_nilai->id_dosen = $request->id_dosen;
+            $data_nilai->nilai = $request->nilai;
+            $data_nilai->keterangan = $request->keterangan;
             $data_nilai->save();
 
             return \response()->json([
@@ -109,7 +109,41 @@ class DataNilaiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "nim" => "required|string|exists:mata_kuliah,nim",
+            "id_mata_kuliah" => "required|numeric|exists:mata_kuliah,id",
+            "id_dosen" => "required|numeric|exists:dosen,id",
+            "nilai" => "required|numeric",
+            "keterangan" => "required|string",
+        ], [
+            'nim.exists' => 'NIM not registered in mata kuliah!',
+            'id_mata_kuliah.exists' => 'Wrong mata kuliah ID!',
+            'id_dosen.exists' => 'Wrong dosen ID!',
+        ]);
+
+        try {
+            $data_nilai = DataNilai::find($id);
+            $data_nilai->nim = $request->nim;
+            $data_nilai->id_mata_kuliah = $request->id_mata_kuliah;
+            $data_nilai->id_dosen = $request->id_dosen;
+            $data_nilai->nilai = $request->nilai;
+            $data_nilai->keterangan = $request->keterangan;
+            $data_nilai->save();
+
+            return \response()->json([
+                "entity" => "data_nilai",
+                "action" => "update",
+                "result" => "success",
+                "data" => DataNilai::find($id)
+            ], \http_response_code());
+        } catch (Throwable $t) {
+            return \response()->json([
+                "entity" => "data_nilai",
+                "action" => "update",
+                "result" => "failed",
+                "message" => $t->getMessage()
+            ], \http_response_code());
+        }
     }
 
     /**
