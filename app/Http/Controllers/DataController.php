@@ -101,20 +101,16 @@ class DataController extends Controller
 
             $data = $query->get();
 
-            $result = [];
+            $temp = [];
             foreach ($data as $d) {
-                $d1 = new DateTime($d->mahasiswa->tgl_lahir);
-                $d2 = new DateTime(date("Y-m-d"));
-                $diff = $d2->diff($d1);
+                $temp[$d->nim][] = $d->nilai;
+            }
 
+            $result = [];
+            foreach ($temp as $t) {
                 $result[] = [
-                    "nim" => $d->nim,
-                    "nama" => $d->mahasiswa->nama,
-                    "jurusan" => $d->mahasiswa->jurusan,
-                    "umur" => $diff->y,
-                    "dosen" => $d->dosen->nama,
-                    "nm_mata_kuliah" => $d->mata_kuliah->nama,
-                    "nilai" => $d->nilai,
+                    "nilai" => $t,
+                    "avg" => \array_sum($t) / \count($t)
                 ];
             }
 
