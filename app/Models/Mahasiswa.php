@@ -17,4 +17,9 @@ class Mahasiswa extends Model
     {
         return $this->hasMany(MataKuliah::class, "nim", "nim");
     }
+
+    public function scopeJurusan($query, $jurusan)
+    {
+        return $query->whereJurusan($jurusan);
+    }
 }

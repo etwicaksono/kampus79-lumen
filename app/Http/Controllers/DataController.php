@@ -7,6 +7,7 @@ use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DateTime;
+use Throwable;
 
 class DataController extends Controller
 {
@@ -16,23 +17,35 @@ class DataController extends Controller
     }
 
 
-    public function getAllData()
+    public function getAllData(Request $request)
     {
-        $data = DataNilai::with(["dosen", "mahasiswa", "mata_kuliah"])->get();
+        try {
+            $query = DataNilai::with(["dosen", "mahasiswa", "mata_kuliah"]);
+
+            if ($request->has("filter_by")) {
+
+                if ($request->has("jurusan")) {
+                    $query->whereHas("mahasiswa", function ($q) use ($request) {
+                        return $q->where("jurusan", $request->jurusan);
+                    });
+                }
+                if ($request->has("id_dosen")) {
+                    $query->whereHas("mahasiswa", function ($q) use ($request) {
+                        return $q->where("id_dosen", $request->id_dosen);
+                    });
+                }
+                if ($request->has("mata_kuliah")) {
+                    $query->whereHas("mahasiswa", function ($q) use ($request) {
+                        return $q->where("mata_kuliah", $request->mata_kuliah);
+                    });
+                }
+            }
 
 
-        /*  $data = DB::table('data_nilai')
-            ->rightJoin("mahasiswa", "mahasiswa.nim", "=", "data_nilai.nim")
-            ->leftJoin("dosen", "dosen.id", "=", "data_nilai.dosen_id")
-            ->leftJoin("mata_kuliah", "mata_kuliah.id", "=", "data_nilai.mata_kuliah.id")
-            ->groupBy("mahasiswa.nim")
-            ->select(["mahasiswa.*", "dosen.nama"])
-            ->get(); */
+            $data = $query->get();
 
-        $result = [];
-        $container = [];
-        foreach ($data as $d) {
-            if (!in_array($d->nim, $container)) {
+            $result = [];
+            foreach ($data as $d) {
                 $d1 = new DateTime($d->mahasiswa->tgl_lahir);
                 $d2 = new DateTime(date("Y-m-d"));
                 $diff = $d2->diff($d1);
@@ -46,12 +59,76 @@ class DataController extends Controller
                     "nm_mata_kuliah" => $d->mata_kuliah->nama,
                     "nilai" => $d->nilai,
                 ];
-                $container[] = $d->nim;
             }
+
+
+            return \response()->json([
+                "error" => false,
+                "data" => $result
+            ], \http_response_code());
+        } catch (Throwable $t) {
+            return \response()->json([
+                "error" => true,
+                "message" => $t->getMessage()
+            ], \http_response_code());
         }
+    }
+
+    public function getMahasiswaAvg(Request $request)
+    {
+        try {
+            $query = DataNilai::with(["dosen", "mahasiswa", "mata_kuliah"]);
+
+            if ($request->has("filter_by")) {
+
+                if ($request->has("jurusan")) {
+                    $query->whereHas("mahasiswa", function ($q) use ($request) {
+                        return $q->where("jurusan", $request->jurusan);
+                    });
+                }
+                if ($request->has("id_dosen")) {
+                    $query->whereHas("mahasiswa", function ($q) use ($request) {
+                        return $q->where("id_dosen", $request->id_dosen);
+                    });
+                }
+                if ($request->has("mata_kuliah")) {
+                    $query->whereHas("mahasiswa", function ($q) use ($request) {
+                        return $q->where("mata_kuliah", $request->mata_kuliah);
+                    });
+                }
+            }
 
 
-        return \response()->json(["data" => $result]);
+            $data = $query->get();
+
+            $result = [];
+            foreach ($data as $d) {
+                $d1 = new DateTime($d->mahasiswa->tgl_lahir);
+                $d2 = new DateTime(date("Y-m-d"));
+                $diff = $d2->diff($d1);
+
+                $result[] = [
+                    "nim" => $d->nim,
+                    "nama" => $d->mahasiswa->nama,
+                    "jurusan" => $d->mahasiswa->jurusan,
+                    "umur" => $diff->y,
+                    "dosen" => $d->dosen->nama,
+                    "nm_mata_kuliah" => $d->mata_kuliah->nama,
+                    "nilai" => $d->nilai,
+                ];
+            }
+
+
+            return \response()->json([
+                "error" => false,
+                "data" => $result
+            ], \http_response_code());
+        } catch (Throwable $t) {
+            return \response()->json([
+                "error" => true,
+                "message" => $t->getMessage()
+            ], \http_response_code());
+        }
     }
 
 
