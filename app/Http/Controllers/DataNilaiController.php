@@ -154,6 +154,22 @@ class DataNilaiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $data = DataNilai::find($id);
+            $data->delete($id);
+            return \response()->json([
+                "entity" => "data_nilai",
+                "action" => "delete",
+                "result" => "success",
+                "data" => $data
+            ], \http_response_code());
+        } catch (Throwable $t) {
+            return \response()->json([
+                "entity" => "data_nilai",
+                "action" => "delete",
+                "result" => "failed",
+                "message" => $t->getMessage()
+            ], \http_response_code());
+        }
     }
 }
