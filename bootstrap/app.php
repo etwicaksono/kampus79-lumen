@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\IsDosen;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
@@ -78,6 +80,7 @@ $app->configure('app');
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    "isdosen" => IsDosen::class,
 ]);
 
 /*
