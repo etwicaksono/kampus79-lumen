@@ -107,10 +107,65 @@ class DataController extends Controller
             }
 
             $result = [];
-            foreach ($temp as $t) {
+            foreach ($temp as $key => $t) {
                 $result[] = [
+                    "nim" => $key,
+                    "avg" => \array_sum($t) / \count($t),
                     "nilai" => $t,
-                    "avg" => \array_sum($t) / \count($t)
+                ];
+            }
+
+
+            return \response()->json([
+                "error" => false,
+                "data" => $result
+            ], \http_response_code());
+        } catch (Throwable $t) {
+            return \response()->json([
+                "error" => true,
+                "message" => $t->getMessage()
+            ], \http_response_code());
+        }
+    }
+
+    public function getJurusanAvg(Request $request)
+    {
+        try {
+            $query = DataNilai::with(["dosen", "mahasiswa", "mata_kuliah"]);
+
+            if ($request->has("filter_by")) {
+
+                if ($request->has("jurusan")) {
+                    $query->whereHas("mahasiswa", function ($q) use ($request) {
+                        return $q->where("jurusan", $request->jurusan);
+                    });
+                }
+                if ($request->has("id_dosen")) {
+                    $query->whereHas("mahasiswa", function ($q) use ($request) {
+                        return $q->where("id_dosen", $request->id_dosen);
+                    });
+                }
+                if ($request->has("mata_kuliah")) {
+                    $query->whereHas("mahasiswa", function ($q) use ($request) {
+                        return $q->where("mata_kuliah", $request->mata_kuliah);
+                    });
+                }
+            }
+
+
+            $data = $query->get();
+
+            $temp = [];
+            foreach ($data as $d) {
+                $temp[$d->mahasiswa->jurusan][] = $d->nilai;
+            }
+
+            $result = [];
+            foreach ($temp as $key => $t) {
+                $result[] = [
+                    "jurusan" => $key,
+                    "avg" => \array_sum($t) / \count($t),
+                    "nilai" => $t,
                 ];
             }
 

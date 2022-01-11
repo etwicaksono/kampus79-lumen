@@ -24,7 +24,8 @@ $router->get('/key', function () {
 $router->group(["middleware" => "auth", "prefix" => "api"], function ($router) {
     $router->get("me", "DataController@me");
     $router->get("get-all", "DataController@getAllData");
-    $router->get("get-avg", "DataController@getMahasiswaAvg");
+    $router->get("mahasiswa-avg", "DataController@getMahasiswaAvg");
+    $router->get("jurusan-avg", "DataController@getJurusanAvg");
 });
 
 $router->group(["prefix" => "api"], function () use ($router) {
