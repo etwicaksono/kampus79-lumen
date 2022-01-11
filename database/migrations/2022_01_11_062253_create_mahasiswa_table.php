@@ -18,6 +18,7 @@ class CreateMahasiswaTable extends Migration
             $table->string("nama", 64);
             $table->string("alamat", 256);
             $table->date("tgl_lahir");
+            $table->string("jurusan", 64);
             $table->timestamps();
             $table->engine = "InnoDB";
         });
