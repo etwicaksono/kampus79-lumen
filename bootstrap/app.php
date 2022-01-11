@@ -25,7 +25,12 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-$app->withFacades();
+$app->withFacades(
+    true,
+    [
+        Maatwebsite\Excel\Facades\Excel::class => 'Excel',
+    ]
+);
 
 $app->withEloquent();
 
@@ -100,7 +105,8 @@ $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Chuckrincon\LumenConfigDiscover\DiscoverServiceProvider::class);
-
+$app->register(Maatwebsite\Excel\ExcelServiceProvider::class);
+$app->register(Irazasyed\Larasupport\Providers\ArtisanServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

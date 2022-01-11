@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\MahasiswaImport;
 use App\Models\DataNilai;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use DateTime;
 use Throwable;
 
@@ -177,6 +178,43 @@ class DataController extends Controller
         } catch (Throwable $t) {
             return \response()->json([
                 "error" => true,
+                "message" => $t->getMessage()
+            ], \http_response_code());
+        }
+    }
+
+    public function imporExcel(Request $request)
+    {
+        // validasi
+        $this->validate($request, [
+            'file' => 'required|mimes:csv,xls,xlsx'
+        ]);
+
+        try {
+
+            // menangkap file excel
+            $file = $request->file('file');
+
+            // membuat nama file unik
+            $nama_file = rand() . $file->getClientOriginalName();
+
+            // upload ke folder excel di dalam folder public
+            $file->move('excel', $nama_file);
+
+            // import data
+            Excel::import(new MahasiswaImport, public_path('/excel/' . $nama_file));
+
+            return \response()->json([
+                "entity" => "mahasiswa",
+                "action" => "import",
+                "result" => "success",
+                "data" => Mahasiswa::latest()->take(10)->get()
+            ], \http_response_code());
+        } catch (Throwable $t) {
+            return \response()->json([
+                "entity" => "user",
+                "action" => "create",
+                "result" => "failed",
                 "message" => $t->getMessage()
             ], \http_response_code());
         }

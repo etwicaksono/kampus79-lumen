@@ -8,7 +8,9 @@
         "php": "^7.3|^8.0",
         "chuckrincon/lumen-config-discover": "^1.0",
         "flipbox/lumen-generator": "^8.2",
+        "irazasyed/larasupport": "^1.7",
         "laravel/lumen-framework": "^8.3.1",
+        "maatwebsite/excel": "^3.1",
         "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {
@@ -21,7 +23,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [

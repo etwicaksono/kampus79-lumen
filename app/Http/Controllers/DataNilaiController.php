@@ -12,6 +12,7 @@ class DataNilaiController extends Controller
     public function __construct()
     {
         $this->middleware("auth:api, isdosen");
+        // $this->middleware(["auth:api", "isdosen"]);
     }
     /**
      * Display a listing of the resource.
