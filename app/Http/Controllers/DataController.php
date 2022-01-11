@@ -20,7 +20,7 @@ class DataController extends Controller
     public function getAllData(Request $request)
     {
         try {
-            $query = DataNilai::with(["dosen", "mahasiswa", "mata_kuliah"]);
+            $query = DataNilai::with("dosen", "mahasiswa", "mata_kuliah");
 
             if ($request->has("filter_by")) {
 
