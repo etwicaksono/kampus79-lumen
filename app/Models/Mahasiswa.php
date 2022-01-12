@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Iksaku\Laravel\MassUpdate\MassUpdatable;
 
 class Mahasiswa extends Model
 {
+    use MassUpdatable;
+
     protected $table = "mahasiswa";
     protected $fillable = [
         "nim",

@@ -8,6 +8,7 @@ use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use DateTime;
+use Illuminate\Support\Arr;
 use Throwable;
 
 class DataController extends Controller
@@ -239,18 +240,48 @@ class DataController extends Controller
             $file->move('excel', $nama_file);
 
             // import data
-            Excel::import(new MahasiswaImport, public_path('/excel/' . $nama_file));
+            $data = Excel::toArray(new MahasiswaImport, public_path('/excel/' . $nama_file));
+
+            /* $result = \array_map(function (array $array): array {
+                return \array_map(function (array $arr): array {
+                    return [
+                        "nim" => $arr[0],
+                        "nama" => $arr[1],
+                        "alamat" => $arr[2],
+                        "tgl_lahir" => $arr[3],
+                        "jurusan" => $arr[4],
+                        "created_at" => \date("Y-m-d H:i:s"),
+                        "updated_at" => \date("Y-m-d H:i:s"),
+                    ];
+                }, $array);
+            }, $data); */
+
+            $result = [];
+            foreach ($data[0] as $d) {
+                $result[] = [
+                    "nim" => $d[0],
+                    "nama" => $d[1],
+                    "alamat" => $d[2],
+                    "tgl_lahir" => $d[3],
+                    "jurusan" => $d[4],
+                    "created_at" => \date("Y-m-d H:i:s"),
+                    "updated_at" => \date("Y-m-d H:i:s"),
+                ];
+            }
+
+            Mahasiswa::massUpdate(values: $result, uniqueBy: "nim");
 
             return \response()->json([
                 "entity" => "mahasiswa",
-                "action" => "import",
+                "action" => "update",
                 "result" => "success",
-                "data" => Mahasiswa::latest()->take(10)->get()
+                "data" => Mahasiswa::latest()->take(10)->get(),
+                // "data" => $result
             ], \http_response_code());
         } catch (Throwable $t) {
             return \response()->json([
                 "entity" => "user",
-                "action" => "create",
+                "action" => "update",
                 "result" => "failed",
                 "message" => $t->getMessage()
             ], \http_response_code());
