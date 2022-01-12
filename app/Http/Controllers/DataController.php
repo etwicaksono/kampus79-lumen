@@ -264,7 +264,6 @@ class DataController extends Controller
                     "alamat" => $d[2],
                     "tgl_lahir" => $d[3],
                     "jurusan" => $d[4],
-                    "created_at" => \date("Y-m-d H:i:s"),
                     "updated_at" => \date("Y-m-d H:i:s"),
                 ];
             }
