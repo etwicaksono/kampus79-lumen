@@ -33,6 +33,7 @@ $router->group(["middleware" => ["auth", "isdosen"], "prefix" => "api"], functio
     $router->put("data-nilai/{id}/update", "DataNilaiController@update");
     $router->delete("data-nilai/{id}/delete", "DataNilaiController@destroy");
     $router->post("impor-xls", "DataController@imporExcel");
+    $router->put("impor-xls", "DataController@imporExcelForUpdate");
 });
 
 $router->group(["prefix" => "api"], function () use ($router) {
