@@ -1,0 +1,488 @@
+{
+	"info": {
+		"_postman_id": "3c25050b-e374-4d97-a8a9-32898013499f",
+		"name": "Kampus79",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registration",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "dosen@gmail.com",
+							"type": "default"
+						},
+						{
+							"key": "role",
+							"value": "dosen",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "default"
+						},
+						{
+							"key": "password_confirmation",
+							"value": "password",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/kampus79/public/api/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"kampus79",
+						"public",
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "dosen@gmail.com",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Me",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2thbXB1czc5XC9wdWJsaWNcL2FwaVwvbG9naW4iLCJpYXQiOjE2NDE4NzI4NTMsImV4cCI6MTY0MTg3NjQ1MywibmJmIjoxNjQxODcyODUzLCJqdGkiOiJOc1F0S2ZQNkJrN3ZDWVBUIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.V61Qk76mydKebaNzNZMOqF-wWPlwmORxLPwPhV9r6hk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/kampus79/public/api/me",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"kampus79",
+						"public",
+						"api",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Data",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/kampus79/public/api/get-all?filter_by=dosen&id_dosen=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"kampus79",
+						"public",
+						"api",
+						"get-all"
+					],
+					"query": [
+						{
+							"key": "filter_by",
+							"value": "dosen"
+						},
+						{
+							"key": "jurusan",
+							"value": "Teknik Informatika",
+							"disabled": true
+						},
+						{
+							"key": "id_dosen",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Average Mahasiswa",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/kampus79/public/api/mahasiswa-avg",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"kampus79",
+						"public",
+						"api",
+						"mahasiswa-avg"
+					],
+					"query": [
+						{
+							"key": "filter_by",
+							"value": "jurusan",
+							"disabled": true
+						},
+						{
+							"key": "jurusan",
+							"value": "Teknik Elektro",
+							"disabled": true
+						},
+						{
+							"key": "id_dosen",
+							"value": "3",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Average Mahasiswa Jurusan",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/kampus79/public/api/jurusan-avg",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"kampus79",
+						"public",
+						"api",
+						"jurusan-avg"
+					],
+					"query": [
+						{
+							"key": "filter_by",
+							"value": "jurusan",
+							"disabled": true
+						},
+						{
+							"key": "jurusan",
+							"value": "Teknik Elektro",
+							"disabled": true
+						},
+						{
+							"key": "id_dosen",
+							"value": "3",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Data Nilai",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nim",
+							"value": "17104410002",
+							"type": "default"
+						},
+						{
+							"key": "id_mata_kuliah",
+							"value": "19",
+							"type": "default"
+						},
+						{
+							"key": "id_dosen",
+							"value": "3",
+							"type": "default"
+						},
+						{
+							"key": "nilai",
+							"value": "89",
+							"type": "default"
+						},
+						{
+							"key": "keterangan",
+							"value": "Lulus",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/data-nilai",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"data-nilai"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Import Excel",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/data-nilai/1/update?nim=17104410003&id_mata_kuliah=20&id_dosen=2&nilai=70&keterangan=Tidak Lulus",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"data-nilai",
+						"1",
+						"update"
+					],
+					"query": [
+						{
+							"key": "nim",
+							"value": "17104410003"
+						},
+						{
+							"key": "id_mata_kuliah",
+							"value": "20"
+						},
+						{
+							"key": "id_dosen",
+							"value": "2"
+						},
+						{
+							"key": "nilai",
+							"value": "70"
+						},
+						{
+							"key": "keterangan",
+							"value": "Tidak Lulus"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Import XLS",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/etwicaksono/Desktop/mahasiswa.xls"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/impor-xls",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"impor-xls"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Import XLS",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "_method",
+							"value": "PUT",
+							"type": "default"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "mahasiswa.xls"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/impor-xls",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"impor-xls"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
